@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "j8HKJulE838=",
+  "dgSpecHash": "A7KYw4yvbuE=",
   "success": true,
-  "projectFilePath": "/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest.Tests/Frends.AS4.PullRequest.Tests.csproj",
+  "projectFilePath": "/Users/rkprabhu/Documents/GitHub/rk-frends-projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest.Tests/Frends.AS4.PullRequest.Tests.csproj",
   "expectedPackageFiles": [
     "/Users/rkprabhu/.nuget/packages/bouncycastle.cryptography/2.6.2/bouncycastle.cryptography.2.6.2.nupkg.sha512",
     "/Users/rkprabhu/.nuget/packages/coverlet.collector/6.0.4/coverlet.collector.6.0.4.nupkg.sha512",

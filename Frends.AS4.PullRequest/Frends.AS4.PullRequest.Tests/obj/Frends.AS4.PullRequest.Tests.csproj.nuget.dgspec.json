@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest.Tests/Frends.AS4.PullRequest.Tests.csproj": {}
+    "/Users/rkprabhu/Documents/GitHub/rk-frends-projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest.Tests/Frends.AS4.PullRequest.Tests.csproj": {}
   },
   "projects": {
-    "/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest.Tests/Frends.AS4.PullRequest.Tests.csproj": {
+    "/Users/rkprabhu/Documents/GitHub/rk-frends-projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest.Tests/Frends.AS4.PullRequest.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest.Tests/Frends.AS4.PullRequest.Tests.csproj",
+        "projectUniqueName": "/Users/rkprabhu/Documents/GitHub/rk-frends-projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest.Tests/Frends.AS4.PullRequest.Tests.csproj",
         "projectName": "Frends.AS4.PullRequest.Tests",
-        "projectPath": "/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest.Tests/Frends.AS4.PullRequest.Tests.csproj",
+        "projectPath": "/Users/rkprabhu/Documents/GitHub/rk-frends-projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest.Tests/Frends.AS4.PullRequest.Tests.csproj",
         "packagesPath": "/Users/rkprabhu/.nuget/packages/",
-        "outputPath": "/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest.Tests/obj/",
+        "outputPath": "/Users/rkprabhu/Documents/GitHub/rk-frends-projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest.Tests/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/rkprabhu/.nuget/NuGet/NuGet.Config"
@@ -26,8 +26,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest/Frends.AS4.PullRequest.csproj": {
-                "projectPath": "/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest/Frends.AS4.PullRequest.csproj"
+              "/Users/rkprabhu/Documents/GitHub/rk-frends-projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest/Frends.AS4.PullRequest.csproj": {
+                "projectPath": "/Users/rkprabhu/Documents/GitHub/rk-frends-projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest/Frends.AS4.PullRequest.csproj"
               }
             }
           }
@@ -92,14 +92,14 @@
         }
       }
     },
-    "/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest/Frends.AS4.PullRequest.csproj": {
+    "/Users/rkprabhu/Documents/GitHub/rk-frends-projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest/Frends.AS4.PullRequest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest/Frends.AS4.PullRequest.csproj",
+        "projectUniqueName": "/Users/rkprabhu/Documents/GitHub/rk-frends-projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest/Frends.AS4.PullRequest.csproj",
         "projectName": "Frends.AS4.PullRequest",
-        "projectPath": "/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest/Frends.AS4.PullRequest.csproj",
+        "projectPath": "/Users/rkprabhu/Documents/GitHub/rk-frends-projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest/Frends.AS4.PullRequest.csproj",
         "packagesPath": "/Users/rkprabhu/.nuget/packages/",
-        "outputPath": "/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest/obj/",
+        "outputPath": "/Users/rkprabhu/Documents/GitHub/rk-frends-projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/rkprabhu/.nuget/NuGet/NuGet.Config"

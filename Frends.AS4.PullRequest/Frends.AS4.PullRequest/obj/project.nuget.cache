@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Db68AeeNGKE=",
+  "dgSpecHash": "FCZhot8p7Q4=",
   "success": true,
-  "projectFilePath": "/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest/Frends.AS4.PullRequest.csproj",
+  "projectFilePath": "/Users/rkprabhu/Documents/GitHub/rk-frends-projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest/Frends.AS4.PullRequest.csproj",
   "expectedPackageFiles": [
     "/Users/rkprabhu/.nuget/packages/bouncycastle.cryptography/2.6.2/bouncycastle.cryptography.2.6.2.nupkg.sha512",
     "/Users/rkprabhu/.nuget/packages/frendstaskanalyzers/1.11.0/frendstaskanalyzers.1.11.0.nupkg.sha512",
