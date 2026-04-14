@@ -20,7 +20,8 @@ This repository contains custom task implementations for the Frends integration 
    git clone https://github.com/rkprabhu1000/rk-frends-projects.git
 
 2. If the Nuget package already doesnt exist (Under bin/release) then continue to step 3 
-3. CD to the relevant project, ```bash
+3. CD to the relevant project,
+   ```bash
    dotnet build
    dotnet test
    dotnet pack --configuration Release
