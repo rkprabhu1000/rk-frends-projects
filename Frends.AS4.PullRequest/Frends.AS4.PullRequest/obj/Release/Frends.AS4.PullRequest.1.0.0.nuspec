@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Frends.AS4.PullRequest</id>
+    <version>1.0.0</version>
+    <authors>Frends</authors>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <projectUrl>https://frends.com/</projectUrl>
+    <description>Frends task for responding to inbound AS4 eb:PullRequest signals by dequeuing and returning a signed, encrypted UserMessage over the synchronous back-channel.</description>
+    <copyright>Copyright (c) 2026 Frends EiPaaS</copyright>
+    <tags>Frends AS4 SOAP WS-Security Messaging Pull MPC</tags>
+    <repository type="git" url="https://github.com/FrendsPlatform/Frends.AS4/tree/main/Frends.AS4.PullRequest" />
+    <dependencies>
+      <group targetFramework="net8.0">
+        <dependency id="MimeKit" version="4.15.1" exclude="Build,Analyzers" />
+        <dependency id="System.Security.Cryptography.Xml" version="8.0.2" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest/bin/Release/net8.0/Frends.AS4.PullRequest.dll" target="lib/net8.0/Frends.AS4.PullRequest.dll" />
+    <file src="/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest/bin/Release/net8.0/Frends.AS4.PullRequest.xml" target="lib/net8.0/Frends.AS4.PullRequest.xml" />
+    <file src="/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest/migration.json" target="/migration.json" />
+    <file src="/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/CHANGELOG.md" target="/CHANGELOG.md" />
+    <file src="/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest/FrendsTaskMetadata.json" target="/FrendsTaskMetadata.json" />
+  </files>
+</package>

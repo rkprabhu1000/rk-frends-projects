@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <IsPackable>false</IsPackable>
+        <Nullable>disable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Frends.AS4.Receive\Frends.AS4.Receive.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include=".env" CopyToOutputDirectory="PreserveNewest" Condition="Exists('.env')"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556"/>
+        <PackageReference Include="coverlet.collector" Version="6.*"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.*"/>
+        <PackageReference Include="NUnit" Version="4.*"/>
+        <PackageReference Include="NUnit3TestAdapter" Version="6.*"/>
+        <PackageReference Include="dotenv.net" Version="4.*"/>
+    </ItemGroup>
+</Project>

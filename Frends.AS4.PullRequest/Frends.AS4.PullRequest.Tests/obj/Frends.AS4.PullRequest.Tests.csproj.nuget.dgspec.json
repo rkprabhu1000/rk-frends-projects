@@ -1,0 +1,176 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest.Tests/Frends.AS4.PullRequest.Tests.csproj": {}
+  },
+  "projects": {
+    "/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest.Tests/Frends.AS4.PullRequest.Tests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest.Tests/Frends.AS4.PullRequest.Tests.csproj",
+        "projectName": "Frends.AS4.PullRequest.Tests",
+        "projectPath": "/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest.Tests/Frends.AS4.PullRequest.Tests.csproj",
+        "packagesPath": "/Users/rkprabhu/.nuget/packages/",
+        "outputPath": "/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest.Tests/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/rkprabhu/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest/Frends.AS4.PullRequest.csproj": {
+                "projectPath": "/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest/Frends.AS4.PullRequest.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[18.*, )"
+            },
+            "NUnit": {
+              "target": "Package",
+              "version": "[4.*, )"
+            },
+            "NUnit3TestAdapter": {
+              "target": "Package",
+              "version": "[6.*, )"
+            },
+            "StyleCop.Analyzers": {
+              "target": "Package",
+              "version": "[1.2.0-beta.556, )"
+            },
+            "coverlet.collector": {
+              "target": "Package",
+              "version": "[6.*, )"
+            },
+            "dotenv.net": {
+              "target": "Package",
+              "version": "[4.*, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/x64/sdk/8.0.419/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest/Frends.AS4.PullRequest.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest/Frends.AS4.PullRequest.csproj",
+        "projectName": "Frends.AS4.PullRequest",
+        "projectPath": "/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest/Frends.AS4.PullRequest.csproj",
+        "packagesPath": "/Users/rkprabhu/.nuget/packages/",
+        "outputPath": "/Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/rkprabhu/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "FrendsTaskAnalyzers": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.*, )"
+            },
+            "MimeKit": {
+              "target": "Package",
+              "version": "[4.*, )"
+            },
+            "StyleCop.Analyzers": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.2.0-beta.556, )"
+            },
+            "System.Security.Cryptography.Xml": {
+              "target": "Package",
+              "version": "[8.*, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/x64/sdk/8.0.419/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

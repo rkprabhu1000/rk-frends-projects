@@ -1,0 +1,12 @@
+[
+  {
+    "Task": "Frends.AS4.Send",
+    "Migrations": [
+      {
+        "Version": "1.0.0",
+        "Description": "",
+        "Migration": []
+      }
+    ]
+  }
+]

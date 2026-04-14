@@ -1,0 +1,274 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Frends.AS4.Receive</name>
+    </assembly>
+    <members>
+        <member name="T:Frends.AS4.Receive.AS4">
+            <summary>
+            Task class for AS4 Receive operations.
+            </summary>
+        </member>
+        <member name="M:Frends.AS4.Receive.AS4.Receive(Frends.AS4.Receive.Definitions.Input,Frends.AS4.Receive.Definitions.Options,System.Threading.CancellationToken)">
+            <summary>
+            Processes an inbound AS4 message received via a Frends HTTP trigger.
+            Parses the Multipart/Related SOAP-with-Attachments body, extracts the eb:Messaging
+            routing headers, optionally verifies the WS-Security RSA-SHA256 signature,
+            decrypts the payload attachment using the receiver's private certificate,
+            and decompresses it if GZip or Deflate compression is detected.
+            [Documentation](https://tasks.frends.com/tasks/CHANNEL/Frends.AS4.Receive)
+            </summary>
+            <param name="input">
+            The raw HTTP request body and Content-Type header from the Frends HTTP trigger,
+            plus certificate paths for decryption and signature verification.
+            </param>
+            <param name="options">
+            Behavioural flags: VerifySignature, DecryptPayload, DecompressPayload,
+            and ThrowErrorOnFailure.
+            </param>
+            <param name="cancellationToken">A cancellation token provided by the Frends Platform.</param>
+            <returns>
+            object {
+              bool Success,
+              string PayloadString,
+              byte[] PayloadBytes,
+              string MessageId,
+              string SenderPartyId,
+              string RecipientPartyId,
+              string Service,
+              string Action,
+              string ConversationId,
+              string AgreementRef,
+              bool SignatureVerified,
+              object Error { string Message, Exception AdditionalInfo }
+            }
+            </returns>
+        </member>
+        <member name="T:Frends.AS4.Receive.Definitions.Error">
+            <summary>
+            Error information returned when the AS4 Receive task encounters a failure.
+            </summary>
+        </member>
+        <member name="P:Frends.AS4.Receive.Definitions.Error.Message">
+            <summary>
+            Human-readable summary of the error.
+            </summary>
+            <example>Signature verification failed: digest mismatch on eb:Messaging.</example>
+        </member>
+        <member name="P:Frends.AS4.Receive.Definitions.Error.AdditionalInfo">
+            <summary>
+            The underlying exception providing stack trace and inner exception details.
+            </summary>
+            <example>System.Security.Cryptography.CryptographicException</example>
+        </member>
+        <member name="T:Frends.AS4.Receive.Definitions.Input">
+            <summary>
+            Input parameters for the AS4 Receive task.
+            </summary>
+        </member>
+        <member name="P:Frends.AS4.Receive.Definitions.Input.RequestBody">
+            <summary>
+            The raw HTTP request body received from the Frends HTTP trigger.
+            This is the full Multipart/Related MIME body containing the SOAP envelope
+            and any payload attachments.
+            </summary>
+            <example>#trigger.body</example>
+        </member>
+        <member name="P:Frends.AS4.Receive.Definitions.Input.ContentTypeHeader">
+            <summary>
+            The value of the Content-Type HTTP request header, including the multipart boundary.
+            Typically sourced from the Frends HTTP trigger's header collection.
+            </summary>
+            <example>multipart/related; type="application/soap+xml"; boundary="MIMEBoundary"</example>
+        </member>
+        <member name="P:Frends.AS4.Receive.Definitions.Input.ReceiverCertificatePath">
+            <summary>
+            File system path to the receiver's PFX (PKCS#12) certificate used to decrypt
+            the inbound payload. Must contain the private key.
+            </summary>
+            <example>C:\certs\receiver.pfx</example>
+        </member>
+        <member name="P:Frends.AS4.Receive.Definitions.Input.ReceiverCertificatePassword">
+            <summary>
+            Password protecting the receiver PFX certificate file.
+            </summary>
+            <example>P@ssw0rd!</example>
+        </member>
+        <member name="P:Frends.AS4.Receive.Definitions.Input.SenderCertificatePath">
+            <summary>
+            Optional file system path to the sender's public X.509 certificate (.cer/.crt)
+            used to verify the WS-Security signature on the inbound message.
+            When left empty and VerifySignature is true, the certificate embedded in the
+            SOAP wsse:BinarySecurityToken is trusted directly (no external trust anchor check).
+            </summary>
+            <example>C:\certs\sender-public.cer</example>
+        </member>
+        <member name="T:Frends.AS4.Receive.Definitions.Options">
+            <summary>
+            Additional options controlling the AS4 Receive task behaviour.
+            </summary>
+        </member>
+        <member name="P:Frends.AS4.Receive.Definitions.Options.VerifySignature">
+            <summary>
+            When true, the WS-Security digital signature on the inbound message is verified
+            using RSA-SHA256. The signature covers the eb:Messaging header and the payload attachment.
+            An exception is thrown if verification fails.
+            </summary>
+            <example>true</example>
+        </member>
+        <member name="P:Frends.AS4.Receive.Definitions.Options.DecryptPayload">
+            <summary>
+            When true, the task attempts to decrypt the payload attachment using the receiver
+            certificate. The AES-256 session key is unwrapped from the xenc:EncryptedKey element
+            in the WS-Security header using RSA-OAEP.
+            </summary>
+            <example>true</example>
+        </member>
+        <member name="P:Frends.AS4.Receive.Definitions.Options.DecompressPayload">
+            <summary>
+            When true, the task decompresses the payload if GZip or Deflate compression is
+            detected (either via eb:PartProperties or by inspecting the magic bytes).
+            </summary>
+            <example>true</example>
+        </member>
+        <member name="P:Frends.AS4.Receive.Definitions.Options.ThrowErrorOnFailure">
+            <summary>
+            When true, any exception during task execution is re-thrown and propagates to the
+            Frends process. When false, the exception is captured in Result.Error and
+            Result.Success is set to false.
+            </summary>
+            <example>true</example>
+        </member>
+        <member name="P:Frends.AS4.Receive.Definitions.Options.ErrorMessageOnFailure">
+            <summary>
+            Overrides the error message returned or thrown on failure.
+            When empty, the original exception message is used.
+            </summary>
+            <example>AS4 receive failed</example>
+        </member>
+        <member name="T:Frends.AS4.Receive.Definitions.Result">
+            <summary>
+            Result returned by the AS4 Receive task after parsing and processing an inbound message.
+            </summary>
+        </member>
+        <member name="P:Frends.AS4.Receive.Definitions.Result.Success">
+            <summary>
+            Indicates whether the task completed successfully, including MIME parsing,
+            optional signature verification, decryption, and decompression.
+            </summary>
+            <example>true</example>
+        </member>
+        <member name="P:Frends.AS4.Receive.Definitions.Result.PayloadString">
+            <summary>
+            The processed payload decoded as a UTF-8 string.
+            Null when the message contains no payload attachment or when Success is false.
+            </summary>
+            <example>&lt;Invoice xmlns="urn:invoice"&gt;...&lt;/Invoice&gt;</example>
+        </member>
+        <member name="P:Frends.AS4.Receive.Definitions.Result.PayloadBytes">
+            <summary>
+            The raw bytes of the processed payload after any decryption and decompression.
+            Null when the message contains no payload attachment or when Success is false.
+            </summary>
+            <example>[byte array]</example>
+        </member>
+        <member name="P:Frends.AS4.Receive.Definitions.Result.MessageId">
+            <summary>
+            The AS4 MessageId extracted from the eb:MessageInfo header.
+            </summary>
+            <example>550e8400-e29b-41d4-a716-446655440000@frends.as4</example>
+        </member>
+        <member name="P:Frends.AS4.Receive.Definitions.Result.SenderPartyId">
+            <summary>
+            The sender's AS4 party identifier extracted from the eb:From/eb:PartyId header.
+            </summary>
+            <example>urn:party:sender:acme</example>
+        </member>
+        <member name="P:Frends.AS4.Receive.Definitions.Result.RecipientPartyId">
+            <summary>
+            The recipient's AS4 party identifier extracted from the eb:To/eb:PartyId header.
+            </summary>
+            <example>urn:party:recipient:partner</example>
+        </member>
+        <member name="P:Frends.AS4.Receive.Definitions.Result.Service">
+            <summary>
+            The AS4 Service value extracted from the eb:CollaborationInfo header.
+            </summary>
+            <example>urn:services:InvoiceService</example>
+        </member>
+        <member name="P:Frends.AS4.Receive.Definitions.Result.Action">
+            <summary>
+            The AS4 Action value extracted from the eb:CollaborationInfo header.
+            </summary>
+            <example>Deliver</example>
+        </member>
+        <member name="P:Frends.AS4.Receive.Definitions.Result.ConversationId">
+            <summary>
+            The conversation identifier extracted from the eb:CollaborationInfo header.
+            </summary>
+            <example>conv-2026-04-10-001</example>
+        </member>
+        <member name="P:Frends.AS4.Receive.Definitions.Result.AgreementRef">
+            <summary>
+            The P-Mode agreement reference extracted from the eb:CollaborationInfo header.
+            Null when AgreementRef was not present in the inbound message.
+            </summary>
+            <example>urn:agreements:PMode-Deliver-v1</example>
+        </member>
+        <member name="P:Frends.AS4.Receive.Definitions.Result.SignatureVerified">
+            <summary>
+            Indicates whether the WS-Security digital signature was present and verified
+            successfully. False when VerifySignature option was disabled.
+            </summary>
+            <example>true</example>
+        </member>
+        <member name="P:Frends.AS4.Receive.Definitions.Result.Error">
+            <summary>
+            Error information populated when Success is false. Null on successful completion.
+            </summary>
+            <example>object { string Message, Exception AdditionalInfo }</example>
+        </member>
+        <member name="T:Frends.AS4.Receive.Helpers.As4MessageParser">
+            <summary>
+            Parses an inbound AS4 Multipart/Related HTTP request body into its constituent
+            SOAP envelope and payload attachment, with optional decryption and decompression.
+            </summary>
+        </member>
+        <member name="M:Frends.AS4.Receive.Helpers.As4MessageParser.Parse(System.String,System.String,System.Security.Cryptography.X509Certificates.X509Certificate2,System.Boolean,System.Boolean)">
+            <summary>
+            Parses the raw request body, extracts the SOAP envelope and attachment,
+            and applies optional decryption and decompression.
+            </summary>
+        </member>
+        <member name="T:Frends.AS4.Receive.Helpers.ParsedAs4Message">
+            <summary>
+            Holds the parsed components of an inbound AS4 message.
+            </summary>
+        </member>
+        <member name="T:Frends.AS4.Receive.Helpers.As4RoutingMetadata">
+            <summary>
+            Routing metadata extracted from the eb:Messaging SOAP header.
+            </summary>
+        </member>
+        <member name="T:Frends.AS4.Receive.Helpers.As4SignatureVerifier">
+            <summary>
+            Verifies the WS-Security XML Digital Signature on an inbound AS4 message.
+            Checks the RSA-SHA256 signature over the eb:Messaging element and the payload attachment digest.
+            </summary>
+        </member>
+        <member name="M:Frends.AS4.Receive.Helpers.As4SignatureVerifier.Verify(System.Xml.XmlDocument,System.Byte[],System.Security.Cryptography.X509Certificates.X509Certificate2)">
+            <summary>
+            Verifies the ds:Signature in the wsse:Security header of <paramref name="soapDoc"/>.
+            </summary>
+            <param name="soapDoc">The parsed SOAP envelope.</param>
+            <param name="attachmentBytes">Raw (post-decryption) attachment bytes used for digest verification.</param>
+            <param name="trustedSenderCert">
+            Optional trusted sender certificate. When null the certificate is taken from the
+            wsse:BinarySecurityToken in the message itself (the signature is still mathematically
+            verified but the trust anchor is not checked against an external store).
+            </param>
+            <exception cref="T:System.InvalidOperationException">Thrown when no Signature element is found.</exception>
+            <exception cref="T:System.Security.Cryptography.CryptographicException">Thrown when the signature or a digest is invalid.</exception>
+        </member>
+    </members>
+</doc>
