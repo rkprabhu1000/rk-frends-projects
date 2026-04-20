@@ -39,3 +39,7 @@
 
 # debug information files
 *.dwo
+
+# Local environment variables (never commit secrets)
+.env
+*.env

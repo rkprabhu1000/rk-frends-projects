@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Frends task for responding to inbound AS4 eb:PullRequest signals by dequeuing and" +
     " returning a signed, encrypted UserMessage over the synchronous back-channel.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8cbde6311e6c980f9a9b29955435fd9e49aca136")]
 [assembly: System.Reflection.AssemblyProductAttribute("Frends")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Frends.AS4.PullRequest")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

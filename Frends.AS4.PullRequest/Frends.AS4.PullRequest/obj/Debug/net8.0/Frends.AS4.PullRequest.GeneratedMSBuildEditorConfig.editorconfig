@@ -16,6 +16,6 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Frends.AS4.PullRequest
-build_property.ProjectDir = /Users/rkprabhu/Documents/projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest/
+build_property.ProjectDir = /Users/rkprabhu/Documents/GitHub/rk-frends-projects/Frends.AS4.PullRequest/Frends.AS4.PullRequest/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

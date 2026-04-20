@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Frends.AS4.PullRequest.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8cbde6311e6c980f9a9b29955435fd9e49aca136")]
 [assembly: System.Reflection.AssemblyProductAttribute("Frends.AS4.PullRequest.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Frends.AS4.PullRequest.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
