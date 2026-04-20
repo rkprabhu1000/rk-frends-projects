@@ -6,8 +6,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is the **rk-frends-projects** monorepo — the central workspace for all Frends-related development. Work here falls into two categories:
 
-1. **Frends process automation** — creating and managing integration processes on the Frends tenant (`rktestfrends.frendsapp.com`) via the [Frends Platform API](https://www.frends.com), using Frends documentation stored in memory as reference.
-2. **Custom Frends task development** — building and publishing C# / .NET 8.0 task libraries that extend the [Frends EiPaaS](https://www.frends.com) platform and are deployed to the tenant.
+1. **Frends process automation** — creating and managing integration processes on the Frends tenant (`rktestfrends.frendsapp.com`) via the Frends Platform API (`https://rktestfrends.frendsapp.com/api/v1/`). Always target environment **Development**, agent group **Development**, agent **Default01** unless the user says otherwise.
+2. **Custom Frends task development** — building C# / .NET 8.0 task libraries that extend the Frends EiPaaS platform. Completed tasks are packaged with `dotnet pack --configuration Release` and manually uploaded to the tenant via the Frends portal.
+
+### Process naming convention
+
+`XXXX1000: Short description` — 2–4 capital letters (customer/use-case prefix) + 4-digit number starting at 1000 + colon + 3–4 word description. Example: `ITM81000: Sync data from SAP`.
 
 The current custom task modules are:
 - **Frends.AS4.Send** — Sends files to remote AS4 Message Service Handlers (MSH)
