@@ -43,3 +43,6 @@
 # Local environment variables (never commit secrets)
 .env
 *.env
+
+# Local scratch / exploration scripts (may contain credentials or one-off paths)
+scripts/
