@@ -40,6 +40,16 @@
 # debug information files
 *.dwo
 
+# macOS metadata
+.DS_Store
+
+# .NET build output — never commit these
+bin/
+obj/
+
+# NuGet packages — regenerated with dotnet pack
+*.nupkg
+
 # Local environment variables (never commit secrets)
 .env
 *.env

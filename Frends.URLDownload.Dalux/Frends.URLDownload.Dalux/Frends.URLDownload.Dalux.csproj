@@ -1,0 +1,85 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Version>1.0.31</Version>
+        <!-- Update when Microsoft.Playwright package version changes -->
+        <PlaywrightVersion>1.59.0</PlaywrightVersion>
+        <Authors>Frends</Authors>
+        <Copyright>Copyright (c) 2026 Frends EiPaaS</Copyright>
+        <Company>Frends</Company>
+        <Product>Frends</Product>
+        <PackageTags>Frends;Dalux;Download;Playwright;Browser;Automation</PackageTags>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <Description>Frends task that logs into Dalux via headless browser automation and downloads a file using the captured authentication token.</Description>
+        <PackageProjectUrl>https://frends.com/</PackageProjectUrl>
+        <Nullable>disable</Nullable>
+        <NoWarn>CS1591,</NoWarn>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Playwright" Version="1.*">
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.44.2">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="FrendsTaskAnalyzers" Version="1.*">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="migration.json" PackagePath="/" Pack="true"/>
+        <Content Include="../CHANGELOG.md" PackagePath="/" Pack="true"/>
+        <Content Include="FrendsTaskMetadata.json"
+                 Pack="true"
+                 PackagePath="/"
+                 CopyToOutputDirectory="PreserveNewest" />
+        <AdditionalFiles Include="FrendsTaskMetadata.json" />
+    </ItemGroup>
+
+    <!-- Bundle the Playwright driver as driver.zip and the missing Linux system libraries
+         as linux-libs.zip at lib/net8.0/. Frends flattens all files from lib/net8.0/**
+         into the process directory root, so subdirectory structures don't survive —
+         but single zip files do. BrowserInstaller extracts both at runtime. -->
+    <Target Name="InjectPlaywrightIntoNupkg" AfterTargets="Pack" Condition="'$(Configuration)' == 'Release'">
+        <PropertyGroup>
+            <_NupkgAbs>$(MSBuildProjectDirectory)/bin/$(Configuration)/$(PackageId).$(Version).nupkg</_NupkgAbs>
+            <_StageAbs>$(MSBuildProjectDirectory)/bin/$(Configuration)/.playwright-inject</_StageAbs>
+            <_PlaywrightSrc>$(NuGetPackageRoot)microsoft.playwright/$(PlaywrightVersion)/.playwright</_PlaywrightSrc>
+            <_DriverZip>$(MSBuildProjectDirectory)/bin/$(Configuration)/driver.zip</_DriverZip>
+            <_LinuxLibsZip>$(MSBuildProjectDirectory)/bin/$(Configuration)/linux-libs.zip</_LinuxLibsZip>
+            <_LinuxLibsSrc>$(MSBuildProjectDirectory)/linux-libs</_LinuxLibsSrc>
+        </PropertyGroup>
+        <Exec Command="rm -rf &quot;$(_StageAbs)&quot; &quot;$(_DriverZip)&quot; &quot;$(_LinuxLibsZip)&quot;" />
+
+        <!-- Build driver.zip: recreates .playwright/ on the Linux agent at runtime -->
+        <Exec Command="mkdir -p &quot;$(_StageAbs)/.playwright/node/linux-x64&quot;" />
+        <Exec Command="cp -r &quot;$(_PlaywrightSrc)/package&quot; &quot;$(_StageAbs)/.playwright/package&quot;" />
+        <Exec Command="cp &quot;$(_PlaywrightSrc)/node/linux-x64/node&quot; &quot;$(_StageAbs)/.playwright/node/linux-x64/node&quot;" />
+        <Exec Command="cp &quot;$(_PlaywrightSrc)/node/LICENSE&quot; &quot;$(_StageAbs)/.playwright/node/LICENSE&quot;" />
+        <Exec Command="sh -c 'cd &quot;$(_StageAbs)&quot; &amp;&amp; zip -r -q &quot;$(_DriverZip)&quot; .playwright/'" />
+        <Exec Command="rm -rf &quot;$(_StageAbs)&quot;" />
+
+        <!-- Build linux-libs.zip: .so files missing from minimal Linux container images -->
+        <Exec Command="sh -c 'cd &quot;$(_LinuxLibsSrc)&quot; &amp;&amp; zip -j -q &quot;$(_LinuxLibsZip)&quot; *.so*'" />
+
+        <!-- Inject both zips into the nupkg at lib/net8.0/ in one shot -->
+        <Exec Command="mkdir -p &quot;$(_StageAbs)/lib/net8.0&quot;" />
+        <Exec Command="cp &quot;$(_DriverZip)&quot; &quot;$(_StageAbs)/lib/net8.0/driver.zip&quot;" />
+        <Exec Command="cp &quot;$(_LinuxLibsZip)&quot; &quot;$(_StageAbs)/lib/net8.0/linux-libs.zip&quot;" />
+        <Exec Command="sh -c 'cd &quot;$(_StageAbs)&quot; &amp;&amp; zip -r -q &quot;$(_NupkgAbs)&quot; lib/'" />
+        <Exec Command="rm -rf &quot;$(_StageAbs)&quot; &quot;$(_DriverZip)&quot; &quot;$(_LinuxLibsZip)&quot;" />
+        <Message Text="Playwright driver.zip + linux-libs.zip injected into $(_NupkgAbs)" Importance="High" />
+    </Target>
+
+</Project>
