@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <LangVersion>latest</LangVersion>
-        <Version>1.0.31</Version>
+        <Version>1.1.0</Version>
         <!-- Update when Microsoft.Playwright package version changes -->
         <PlaywrightVersion>1.59.0</PlaywrightVersion>
         <Authors>Frends</Authors>
@@ -48,7 +48,7 @@
     </ItemGroup>
 
     <!-- Bundle the Playwright driver as driver.zip and the missing Linux system libraries
-         as linux-libs.zip at lib/net8.0/. Frends flattens all files from lib/net8.0/**
+         as linux-libs.zip at lib/net10.0/. Frends flattens all files from lib/net10.0/**
          into the process directory root, so subdirectory structures don't survive —
          but single zip files do. BrowserInstaller extracts both at runtime. -->
     <Target Name="InjectPlaywrightIntoNupkg" AfterTargets="Pack" Condition="'$(Configuration)' == 'Release'">
@@ -73,10 +73,10 @@
         <!-- Build linux-libs.zip: .so files missing from minimal Linux container images -->
         <Exec Command="sh -c 'cd &quot;$(_LinuxLibsSrc)&quot; &amp;&amp; zip -j -q &quot;$(_LinuxLibsZip)&quot; *.so*'" />
 
-        <!-- Inject both zips into the nupkg at lib/net8.0/ in one shot -->
-        <Exec Command="mkdir -p &quot;$(_StageAbs)/lib/net8.0&quot;" />
-        <Exec Command="cp &quot;$(_DriverZip)&quot; &quot;$(_StageAbs)/lib/net8.0/driver.zip&quot;" />
-        <Exec Command="cp &quot;$(_LinuxLibsZip)&quot; &quot;$(_StageAbs)/lib/net8.0/linux-libs.zip&quot;" />
+        <!-- Inject both zips into the nupkg at lib/net10.0/ in one shot -->
+        <Exec Command="mkdir -p &quot;$(_StageAbs)/lib/net10.0&quot;" />
+        <Exec Command="cp &quot;$(_DriverZip)&quot; &quot;$(_StageAbs)/lib/net10.0/driver.zip&quot;" />
+        <Exec Command="cp &quot;$(_LinuxLibsZip)&quot; &quot;$(_StageAbs)/lib/net10.0/linux-libs.zip&quot;" />
         <Exec Command="sh -c 'cd &quot;$(_StageAbs)&quot; &amp;&amp; zip -r -q &quot;$(_NupkgAbs)&quot; lib/'" />
         <Exec Command="rm -rf &quot;$(_StageAbs)&quot; &quot;$(_DriverZip)&quot; &quot;$(_LinuxLibsZip)&quot;" />
         <Message Text="Playwright driver.zip + linux-libs.zip injected into $(_NupkgAbs)" Importance="High" />
