@@ -1,0 +1,22 @@
+[
+  {
+    "Task": "Frends.SAS.Read",
+    "Migrations": [
+      {
+        "Version": "1.0.0",
+        "Description": "",
+        "Migration": []
+      },
+      {
+        "Version": "1.0.2",
+        "Description": "MINGUO-formatted date columns are now converted to ISO 8601 strings under DateOutputFormat=Iso8601String instead of being left as raw numeric values.",
+        "Migration": []
+      },
+      {
+        "Version": "1.0.3",
+        "Description": "Added further day-precision SAS date formats not recognized by SasReader (NENGO, QTR, QTRR, WEEKV, YYQ and its variants) to the same supplemental conversion path added for MINGUO in 1.0.2.",
+        "Migration": []
+      }
+    ]
+  }
+]
