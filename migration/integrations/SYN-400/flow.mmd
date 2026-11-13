@@ -1,0 +1,9 @@
+flowchart TB
+    A[Inbound message with N request elements] --> B[Parse into list of N requests]
+    B --> C[Foreach request in list]
+    C --> D[HTTP.Request Task\ncall SimpleStockQuoteService]
+    D --> E[Collect response into results list]
+    E --> F{More items?}
+    F -->|Yes| C
+    F -->|No| G[Aggregate all N responses\ninto one combined result]
+    G --> H[Return combined response]

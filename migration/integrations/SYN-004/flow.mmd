@@ -1,0 +1,13 @@
+flowchart TB
+    A[Inbound getQuote request] --> B{Decision: symbol}
+    B -->|IBM| C[HTTP.Request Task\nreal backend]
+    B -->|MSFT| D[HTTP.Request Task\n'bogus' endpoint\n<i>intentionally broken</i>]
+    B -->|SUN| E[Call Activity: sunSequence]
+    E --> F[HTTP.Request Task\n'sunPort' endpoint]
+
+    C -->|failure| G[Process default error handler\n= 'fault' sequence]
+    D -->|failure| G
+    F -->|failure| H[Scoped Catch: sunErrorHandler\n<i>overrides default for this branch</i>]
+
+    G --> I[Log ERROR_MESSAGE, terminate]
+    H --> I

@@ -1,0 +1,5 @@
+flowchart LR
+    A[Inbound message] --> B{Decision:\nTo matches\n.*/StockQuote.*?}
+    B -->|Yes| C[HTTP.Request Task\ncall SimpleStockQuoteService]
+    C --> D[Stop / drop]
+    B -->|No| E[Default passthrough send]

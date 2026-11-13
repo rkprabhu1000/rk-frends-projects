@@ -1,0 +1,5 @@
+flowchart LR
+    A[Client SOAP request] --> B[Frends HTTP Trigger\n<i>StockQuoteProxy equivalent</i>]
+    B --> C[HTTP.Request Task\ncall SimpleStockQuoteService]
+    C -->|success| D[Return response to caller]
+    C -->|failure| E[Process error handler\nsee SYN-004 pattern]

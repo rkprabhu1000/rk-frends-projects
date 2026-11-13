@@ -1,0 +1,11 @@
+flowchart TB
+    A[Inbound message] --> B{Session already pinned\nto a failover group?}
+    B -->|No| C[Pick failover group\ne.g. round-robin/random]
+    B -->|Yes| D[Use previously pinned group]
+    C --> E[Pin session to chosen group]
+    E --> F
+    D --> F[Try group's endpoint 1]
+    F -->|fail| G[Try group's endpoint 2]
+    F -->|success| H[Return response]
+    G -->|success| H
+    G -->|fail, group exhausted| I[Process error handler\nReturn SOAP fault: couldn't send message]

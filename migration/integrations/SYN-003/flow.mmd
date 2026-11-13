@@ -1,0 +1,9 @@
+flowchart TB
+    A[Inbound message] --> B[Set direction=incoming]
+    B --> C[[Call Activity:\nSUB-StockQuoteClient\n<i>= stockquote sequence</i>]]
+    C --> D[Log: version + direction]
+    D --> E[HTTP.Request Task\ncall ENV-StockQuoteServiceUrl\n<i>= 'simple' endpoint</i>]
+    E --> F[Return response]
+
+    G[(ENV-Version\n= 0.1)] -.-> D
+    H[(ENV-StockQuoteServiceUrl)] -.-> E

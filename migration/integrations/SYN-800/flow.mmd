@@ -1,0 +1,12 @@
+flowchart TB
+    subgraph R1["Resource 1: GET /view/{symbol}"]
+        A1[HTTP Trigger\nGET api/stockquote/view/:symbol] --> B1[Build SOAP payload\nfrom path parameter symbol]
+        B1 --> C1[HTTP.Request Task\ncall SimpleStockQuoteService]
+        C1 --> D1[Return SOAP response]
+    end
+
+    subgraph R2["Resource 2: POST /order/* — confirmed native pattern"]
+        A2[HTTP Trigger\nPOST api/stockquote/order] --> B2[Intermediate Return\n202 Accepted — closes connection]
+        B2 --> C2[HTTP.Request Task\ncall SimpleStockQuoteService\n<i>caller already gone, confirmed via docs.frends.com</i>]
+        C2 --> D2[Final Return — ends process]
+    end

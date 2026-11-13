@@ -1,0 +1,10 @@
+flowchart TB
+    A[Inbound getQuote request] --> B[SQL Task: lookup company by symbol]
+    B --> C{Decision: company found?}
+    C -->|Yes| D[Log company_id]
+    D --> E[HTTP.Request Task\ncall SimpleStockQuoteService]
+    E --> F[Return response]
+    C -->|No| G[Log: Unrecognized Company ID]
+    G --> H[Return SOAP fault: Unrecognized Company ID]
+
+    B -.->|unhandled technical error| I[Process default error handler\nReturn generic Receiver fault]

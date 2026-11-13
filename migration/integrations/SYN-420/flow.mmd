@@ -1,0 +1,7 @@
+flowchart TB
+    A[Inbound message] --> B[Compute cache key\n<i>digest of request, or a narrower ID field</i>]
+    B --> C{Decision: cache hit?}
+    C -->|Yes| D[Return cached response]
+    C -->|No| E[HTTP.Request Task\ncall backend]
+    E --> F[Store response in cache\nkeyed by B]
+    F --> G[Return response]

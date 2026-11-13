@@ -1,0 +1,5 @@
+flowchart LR
+    A[Inbound message] --> B[Frends.Soap.Request Task\nIncludeWsSecurity=true\nUsernameToken + Timestamp\n<i>Branch A — only if policy needs no more than this</i>]
+    B --> C[Return response]
+
+    B -.->|"if real policy needs X.509 signing/encryption\n(Branch B — not natively supported)"| D[["Custom: SignXml + manual\nenvelope construction — needs design review"]]

@@ -4,8 +4,9 @@ You are helping the user create or manage a Frends integration process on their 
 
 - Tenant: `rktestfrends.frendsapp.com`
 - Platform API base URL: `https://rktestfrends.frendsapp.com/api/v1/`
-- Use the `mcp__frends-docs__searchDocumentation` and `mcp__frends-docs__getPage` tools to look up Frends concepts, API endpoints, and platform behaviour before writing anything.
-- Use the Frends Platform API to create or update processes programmatically when the user asks for it.
+- **Primary build method: Frends MCP process-authoring tools** (`mcp__RK_MCP_APP__*` — `process_add_task`, `process_add_catch`, `process_set_error_handler`, `process_add_call_activity`, `create_environment_variable`, `validate_process`, `deploy_process`, etc.). Always start here — see *Build method* under Workflow.
+- **Fallback only: raw JSON via Platform API** (export → modify → batch-import). Use only if the MCP tools cannot complete the build, and only after the user explicitly approves switching methods.
+- Use the `mcp__frends-docs__searchDocumentation` and `mcp__frends-docs__getPage` tools to look up Frends concepts, API endpoints, and platform behaviour before writing anything. If available, also check the `frends-canonical-knowledge` skill for correct terminology and `frends-capability-answers` for any claim about what Frends can or cannot do — never rely on memory for Frends product behaviour.
 
 ### Default deployment target (use unless the user specifies otherwise)
 
@@ -57,13 +58,21 @@ Use the returned `access_token` as `Authorization: Bearer <token>` on all Platfo
 1. **Clarify intent** — understand what the process should do: what triggers it, what it integrates, what the expected output is.
 2. **Look up docs** — search Frends documentation for relevant tasks, triggers, connections, or agents before writing anything. Frends docs are the authoritative source — do not rely solely on exported processes as templates.
 3. **Design the process** — describe the flow in plain language first (trigger → steps → output). Confirm with the user before building.
-4. **Build via Platform API** — there is **no `POST /api/v1/processes`**. Processes are created by building a JSON payload and posting it to `POST /api/v1/processes/batch-import` (multipart/form-data, `file=@process.json`, `importConflict=NewActiveElement`). To update an existing process use `importConflict=NewVersion` (matches by GUID). See *Process creation method* below.
-5. **Deploy** — `POST /api/v1/process-deployments` with `agentGroupId: 51`, `runOn: "Default01"`, `buildVersion: 0`.
-6. **Verify** — after creation, confirm the process exists and is runnable on the tenant.
+4. **Apply the best-practices checklist** — see *Best Practices* below. Bake in error handling, reusability, security, and scalability decisions at design time, not as an afterthought.
+5. **Build — MCP first** — always start with the Frends MCP process-authoring tools (`mcp__RK_MCP_APP__*`). Build iteratively, not in one shot:
+   1. Create the skeleton — process, trigger, high-level structure (`create_process_draft` / `process_add_*_trigger`) — and verify it before continuing.
+   2. Add connectivity — connections, authentication, environment variables (`create_environment_variable`, `list_environment_variables`); never inline secrets or literals.
+   3. Add source/task logic (`process_add_task`, `process_add_foreach`, gateways, etc.), then transformation/mapping.
+   4. Add error handling — `process_set_error_handler` (process-level) and `process_add_catch` around each external call — per *Best Practices* below.
+   5. Add observability — correlation/business identifiers in logging.
+   6. Run `validate_process` and fix any reported issues before deploying.
+   - **If the MCP tools break or can't express something the design needs** (unsupported shape/trigger, a validation error the tools can't resolve, etc.): stop, tell the user exactly what failed and why, and ask for explicit approval before switching to the raw-JSON Platform API fallback (*Process creation method* below). Do not silently fall back.
+6. **Deploy** — via `deploy_process` (MCP) with agent group `Development` / agent `Default01`, or — only in the approved fallback — `POST /api/v1/process-deployments` with `agentGroupId: 51`, `runOn: "Default01"`, `buildVersion: 0`.
+7. **Verify** — after creation, confirm the process exists and is runnable on the tenant, and that the error handler actually fires (test a failure path, not just the happy path).
 
-## Process creation method
+## Process creation method (fallback only — requires user approval to use)
 
-Frends has no direct process creation endpoint. The only path is **export → modify → batch-import**:
+Frends has no direct process creation endpoint. The raw-JSON path is **export → modify → batch-import**:
 
 1. Export a similar process as a template: `GET /api/v1/processes/{guid}/versions/{version}/export`
 2. Modify the JSON: set new `Name`, `UniqueIdentifier` (new UUID), update `ElementParameters`, `Bpmn`, `TriggersJson`
@@ -112,6 +121,47 @@ Use `#result[Element Name]` — no quotes inside the brackets. `#result["Element
 
 ### ProcessScope (Type 8)
 Do not wrap elements in a ProcessScope by default. Place tasks, gateways, and flows directly in the main process flow. Only use a scope when the design explicitly requires one.
+
+## Best Practices
+
+Apply these to every process built for the user, regardless of whether it's assembled as raw JSON for batch-import or via the Frends MCP process-authoring tools. Do not treat these as optional polish — they are part of "done."
+
+### Exception handling
+- Every process must have a **process-level error handler** (`process_set_error_handler`, or the equivalent `ErrorHandlerJson` in raw JSON) — never leave a process to fail silently or crash the agent's job queue.
+- Wrap calls to external systems (HTTP, database, file, queue) in explicit Catch shapes (`process_add_catch`) rather than relying only on the top-level handler — this lets you distinguish "source system down" from "target system down" from "bad data" and react differently to each.
+- Never use an empty `catch { }` block in a Code element — per the *ElementParameters critical rules* above, this breaks validation. Catch specific exceptions and either rethrow with context, return a typed error result, or route to a dedicated error-handling branch.
+- Error paths should capture enough context to debug without re-running in production: the failing element name, a business identifier (order ID, file name, message ID — not just a GUID), and the underlying exception message.
+- Decide and document retry behaviour up front: what is retried automatically (transient network/HTTP 5xx), what fails fast (validation errors, 4xx), and how many retries/backoff before giving up.
+
+### Reusability
+- Before building new logic, check `/architecture/reusable-components.md` (if a migration programme is active) or ask the user whether an equivalent subprocess already exists on the tenant.
+- Extract genuinely reusable logic (auth token acquisition, common API clients, shared validation, notification/alerting, logging) into subprocesses and call them with `process_add_call_activity` rather than duplicating the same shapes across processes.
+- Don't over-fragment: a subprocess should represent a real, independently reusable unit of behaviour, not just a rename of the main flow.
+- Prefer parameterizing a subprocess over cloning it — if two processes need "the same thing but slightly different," add a parameter rather than maintaining two copies.
+
+### Security
+- Never hardcode URLs, credentials, connection strings, API keys, tokens, or certificates in process JSON, Code elements, or expressions. Use Environment Variables (`create_environment_variable` / `list_environment_variables`) and reference them — mark secret values appropriately so they aren't exposed in the UI or logs.
+- Use the least-privileged auth mode and scope available for each connection (e.g. OAuth client-credentials scoped to only what the integration needs, not a broad admin token).
+- Never log sensitive data — passwords, tokens, full payloads containing PII/financial data — in Frends logging or Code element output. Log identifiers and status, not raw sensitive content.
+- Validate and sanitize any externally-supplied input used in expressions, file paths, or queries (e.g. don't interpolate untrusted input directly into a SQL query or shell command).
+- Confirm with the user which environment (Development/Test/Production) a given connection or secret belongs to — never point a Development process at a Production credential by default.
+
+### Scalability & performance
+- Paginate calls to APIs/databases that support it rather than pulling an entire dataset into memory in one shot; process large datasets in batches inside a Foreach rather than as one giant in-memory collection.
+- For long-running or high-volume flows, use Hydration Points / scheduled or signal rehydration (`process_add_hydration_point`, `process_add_scheduled_rehydration`, `process_add_signal_rehydration`) instead of holding an agent thread open.
+- Set realistic timeouts (`ConnectionTimeoutSeconds` etc.) — don't leave defaults that either time out too early for large payloads or hang indefinitely on a dead endpoint.
+- Choose the Agent Group/agent with the sequencing and throughput requirements in mind; don't assume `Development`/`Default01` is appropriate once the user is talking about production volumes — confirm with the user before deploying at scale.
+
+### Observability
+- Add correlation/business identifiers (order ID, message ID, file name) to log entries so a specific run can be traced end-to-end across shapes and subprocesses.
+- Log at key decision points (branch taken, retry attempt, error caught) — not just at start/end — so failures are diagnosable without re-running with extra instrumentation.
+
+### General
+- **Prefer maintainability** — another Frends developer should be able to understand the process without reverse engineering it.
+- **Prefer native Frends functionality** — use native Tasks wherever practical; use Code (C#) only when it provides a clear advantage or native functionality is insufficient.
+- **Keep expressions readable** — avoid large, complex inline expressions.
+- **Design for operations** — the process should be easy to monitor, troubleshoot, rerun, and support once deployed.
+- **Validate before declaring done** — run `validate_process` (MCP) and confirm no build/validation errors before deploying; don't rely on "it imported" as a sign of correctness.
 
 ## Principles
 

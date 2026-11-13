@@ -1,0 +1,9 @@
+flowchart TB
+    A[Inbound message] --> B[Save original request\nas process variable]
+    B --> C[Frends.Soap.Request\ncall SecureStockQuoteService\nWS-Security — pending SYN-100 branch resolution]
+    C --> D[Extract SecureAmount\nsave secure response]
+    D --> E[HTTP.Request Task\ncall SimpleStockQuoteService\nwith saved original request]
+    E --> F[Extract SimpleAmount\nsave simple response]
+    F --> G{Decision:\nSimpleAmount > SecureAmount?}
+    G -->|Yes| H[Return simple response]
+    G -->|No| I[Return secure response]

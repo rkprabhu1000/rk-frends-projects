@@ -1,0 +1,13 @@
+flowchart TB
+    subgraph P1["Process 1: Receive and store — ack mechanism confirmed native"]
+        A[HTTP Trigger] --> B[Intermediate Return\n202 Accepted]
+        B --> C[Publish message to Queue]
+        C --> Z[Final Return]
+    end
+
+    subgraph P2["Process 2: Scheduled forwarding — separate process, polls the queue"]
+        D[Queue Trigger\nor Schedule Trigger polling queue] --> E[HTTP.Request Task\ncall SimpleStockQuoteService\n<i>assumed target — not stated in this sample</i>]
+        E --> F[Log delivery result]
+    end
+
+    C ==> D

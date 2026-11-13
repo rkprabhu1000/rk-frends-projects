@@ -13,10 +13,16 @@ This is the **rk-frends-projects** monorepo — the central workspace for all Fr
 
 `XXXX1000: Short description` — 2–4 capital letters (customer/use-case prefix) + 4-digit number starting at 1000 + colon + 3–4 word description. Example: `ITM81000: Sync data from SAP`.
 
-The current custom task modules are:
+### Custom task naming convention
+
+`Frends.*` is reserved for the official catalog at tasks.frends.com — a custom task using it collides with catalog package IDs and implies vendor support that doesn't exist. **New** custom tasks use the Party prefix `RK` instead: `RK.<SYSTEM>.<ACTION>` (e.g. `RK.Salesforce.Query`).
+
+The existing modules below predate this rule and keep their `Frends.*` names for continuity — do not rename them:
 - **Frends.AS4.Send** — Sends files to remote AS4 Message Service Handlers (MSH)
 - **Frends.AS4.Receive** — Processes inbound AS4 messages
 - **Frends.AS4.PullRequest** — Handles AS4 eb:PullRequest pull-pattern exchanges
+
+See `.claude/skills/frends-task-creator/SKILL.md` for full naming, contract, and review-checklist details for any new task.
 
 ## Commands
 

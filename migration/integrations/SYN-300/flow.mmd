@@ -1,0 +1,5 @@
+flowchart LR
+    A[Schedule Trigger\nevery 5s - demo interval only] --> B[Build static getQuote request\nsymbol=IBM]
+    B --> C[HTTP.Request Task\ncall SimpleStockQuoteService]
+    C --> D[Extract fields:\nlastTradeTimestamp, name, last]
+    D --> E[Log fields]

@@ -1,0 +1,3 @@
+flowchart LR
+    A[Inbound message] --> B[HTTP.Request Task\nURL from ENV-StockQuoteServiceUrl\n<i>resolved once from WSDL at build time</i>]
+    B --> C[Return response]
